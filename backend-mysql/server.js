@@ -41,22 +41,39 @@ db.connect(err => {
 app.post('/api/signin', (req, res) => {
   const { email, password } = req.body;
 
-  // Query the database to check if the member exists with the provided email and password
-  db.query('SELECT * FROM member WHERE Email = ? AND Password = ?', [email, password], (error, results) => {
+  // Query the database to retrieve the hashed password for the provided email
+  db.query('SELECT * FROM member WHERE Email = ?', [email], (error, results) => {
     if (error) {
       console.error('Error during member authentication:', error);
       res.status(500).json({ error: 'Internal server error' });
     } else {
       if (results.length > 0) {
-        // Generate a token for successful authentication
-        const token = jwt.sign({ member_id: results[0].Member_id, email: results[0].Email }, 'your_secret_key');
-        res.json({ token });
+        const hashedPassword = results[0].Password;
+
+        // Compare the provided password with the hashed password
+        bcrypt.compare(password, hashedPassword, (compareError, isMatch) => {
+          if (compareError) {
+            console.error('Error comparing passwords:', compareError);
+            res.status(500).json({ error: 'Internal server error' });
+          } else {
+            if (isMatch) {
+              // Passwords match, generate a token for successful authentication
+              const token = jwt.sign({ member_id: results[0].Member_id, email: results[0].Email }, 'your_secret_key');
+              res.json({ token });
+            } else {
+              // Passwords do not match
+              res.status(401).json({ error: 'Invalid credentials' });
+            }
+          }
+        });
       } else {
+        // No member found with the provided email
         res.status(401).json({ error: 'Invalid credentials' });
       }
     }
   });
 });
+
 
 // API endpoint for joining a new member
 app.post('/api/join', async (req, res) => {
