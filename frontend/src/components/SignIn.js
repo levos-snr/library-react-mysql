@@ -19,11 +19,7 @@ const SignIn = ({ onSignInSuccess }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/signin', formData, {
-        headers: {
-          Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
-        },
-      });
+      const response = await axios.post('http://localhost:5000/api/signin', formData);
 
       const { data } = response;
 

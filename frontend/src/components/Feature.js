@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Categories from './Categories';
 
 
 const Feature = () => {
@@ -118,7 +119,7 @@ const Feature = () => {
         </button>
       </div>
       </div>
-      
+      <Categories />
     </>
   );
 };

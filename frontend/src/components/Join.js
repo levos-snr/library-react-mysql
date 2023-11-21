@@ -26,7 +26,6 @@ const Join = ({ onJoinSuccess }) => {
     // Add validation for password and confirmation
     if (formData.password !== formData.confirmPassword) {
       console.error('Password and Confirm Password do not match');
-      // You can handle this case and show an error message to the user
       return;
     }
 

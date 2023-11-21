@@ -246,6 +246,55 @@ app.get('/api/authors', (req, res) => {
       }
     });
   });
+
+
+
+
+
+  // Endpoint to get member details
+app.get('/api/member/details', verifyToken, (req, res) => {
+  const memberId = req.member.member_id;
+
+  console.log('Member ID:', memberId);
+
+  db.query(
+    'SELECT * FROM member_details WHERE Member_id = ?',
+    [memberId],
+    (error, results) => {
+      if (error) {
+        console.error('Error retrieving member details:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+
+      console.log('Member details:', results);
+
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.status(404).json({ error: 'Member not found' });
+      }
+    }
+  );
+});
+
+// Token verification middleware
+function verifyToken(req, res, next) {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ error: 'Unauthorized: No token provided' });
+  }
+
+  jwt.verify(token, 'your_secret_key', (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: 'Unauthorized: Invalid token' });
+    }
+
+    req.member = decoded;
+    next();
+  });
+}
+
   
   // Get all members
   app.get('/api/members', (req, res) => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SignIn from './SignIn'; // Import the SignIn component
 import Join from './Join'; // Import the Join component
+import {Link }from "react-router-dom";
 
 
 
@@ -53,19 +54,26 @@ const Navbar = () => {
   return (
     <nav className="bg-gray-800 p-4">
       <div className="container mx-auto flex items-center justify-between">
-        <div className="text-white font-semibold text-lg">Library App</div>
+      <Link to="/"><div className="text-white font-semibold text-lg"> Library App</div></Link>
 
         {/* Responsive Navigation */}
         <div className="flex items-center space-x-4">
-          <a href="#" className="text-white hover:text-gray-300">
-            Home
-          </a>
-          <a href="#" className="text-white hover:text-gray-300">
-            Books
-          </a>
-          <a href="#" className="text-white hover:text-gray-300">
+        <Link to="/">
+            <span className="text-white hover:text-gray-300">
+              Home
+         </span>
+        </Link>
+
+        <Link to="/">
+            <span className="text-white hover:text-gray-300">
+              Books
+         </span>
+        </Link>
+        <Link to="/Member">
+            <span className="text-white hover:text-gray-300">
             Members
-          </a>
+         </span>
+        </Link>
 
           {/* Dropdown Menu */}
           <div className="relative inline-block text-left">
@@ -79,34 +87,18 @@ const Navbar = () => {
             {isDropdownOpen && (
               <div className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="py-1">
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    onClick={toggleDropdown}
-                  >
-                    Reservations
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    onClick={toggleDropdown}
-                  >
-                    Fines
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    onClick={toggleDropdown}
-                  >
-                    Memberships
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    onClick={toggleDropdown}
-                  >
-                    Statistics
-                  </a>
+                <Link to="/Reservation" className="block px-4 py-2 text-gray-700 hover:bg-gray-100" onClick={toggleDropdown}>
+                <span>Reservations</span>
+                </Link>
+                <Link to="/Fine" className="block px-4 py-2 text-gray-700 hover:bg-gray-100" onClick={toggleDropdown}>
+          <span>Fines</span>
+  </Link>
+  <Link to="/Member" className="block px-4 py-2 text-gray-700 hover:bg-gray-100" onClick={toggleDropdown}>
+    <span>Memberships</span>
+  </Link>
+  <Link to="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100" onClick={toggleDropdown}>
+    <span>Statistics</span>
+  </Link>
                   {/* Add more dropdown items as needed */}
                 </div>
               </div>
