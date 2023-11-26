@@ -26,7 +26,12 @@ const SignIn = ({ onSignInSuccess }) => {
       if (data && data.token) {
         // Save the token to local storage
         localStorage.setItem('token', data.token);
+
+        // Save user info in local storage or state for persistence
+        localStorage.setItem('user', JSON.stringify({ email: formData.email }));
+
         onSignInSuccess();
+       
       } else {
         console.error('Invalid response from server:', data);
       }

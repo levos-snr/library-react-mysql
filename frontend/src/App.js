@@ -8,21 +8,27 @@ import ReservationStatus from './components/ReservationStatus';
 import Fine from './components/Fine';
 import Join from './components/Join';  // assuming you have a Join component
 import SignIn from './components/SignIn';  // assuming you have a SignIn component
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     // Check if the user is authenticated, for example by verifying a token in localStorage
     const token = localStorage.getItem('token');
-    setAuthenticated(!!token);
+    const storedUser = localStorage.getItem('user');
+
+    if (token && storedUser) {
+      setAuthenticated(true);
+      setUser(JSON.parse(storedUser));
+    }
   }, []);
 
   return (
     <Router>
       <div className="App">
-        <Navbar authenticated={authenticated} setAuthenticated={setAuthenticated} />
+      <Navbar authenticated={authenticated} setAuthenticated={setAuthenticated} user={user} />
         <Routes>
         <Route
                             exact
